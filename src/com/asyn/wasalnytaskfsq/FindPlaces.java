@@ -1,12 +1,11 @@
 package com.asyn.wasalnytaskfsq;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.asyn.wasalnytaskfsq.helpers.NearbyVenuesReader;
+import com.asyn.wasalnytaskfsq.helpers.OnTaskCompletedListener;
 import com.asyn.wasalnytaskfsq.helpers.Venue;
 import com.asyn.wasalnytaskfsq.utilities.ShowLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,9 +39,7 @@ public class FindPlaces extends Activity {
 				.getMap();
 		 getMyCurrentLocation();		
 		
-		nearbyVenues = new NearbyVenuesReader(buildAPIURL());
-		Log.v("CALL: ", "Calling Trace");
-		traceMarkers();
+		nearbyVenues = new NearbyVenuesReader(buildAPIURL(), listener);
 	}
 
 	/**
@@ -77,11 +74,14 @@ public class FindPlaces extends Activity {
 	}
 	
 	private void traceMarkers() {
-		List<Venue> venues = nearbyVenues.getVenues();
-		Log.v(FindPlaces.class.getSimpleName(), "SIZE: " + venues.size());
-		for (Venue venue : venues) {
-			System.out.println(venue.toString());
-		}
+		
 	}
+	
+	private OnTaskCompletedListener listener = new OnTaskCompletedListener() {
+		@Override
+		public void onTaskTaskCompleted() {
+			traceMarkers();
+		}
+	};
 	
 }

@@ -23,20 +23,21 @@ public final class JSONParser {
 	private static final String _LONGITUDE = "lng";
 
 	private JSONArray venues;
-	private List<Venue> venuesList;
+	private List<Venue> listOfVenues;
 
 	public JSONParser(StringBuilder responseData) {
 		try {
 			JSONObject jsonResponse = new JSONObject(responseData.toString());
 			JSONObject response = jsonResponse.getJSONObject(_RESPONSE);
 			venues = response.getJSONArray(_VENUES);
-			venuesList = new ArrayList<Venue>();
+			listOfVenues = new ArrayList<Venue>();
+			parseVenues();
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void parseVenues() {
+	private void parseVenues() {
 		for (int i = 0; i < venues.length(); i++) {
 			try {
 				JSONObject venueObject = venues.getJSONObject(i);
@@ -47,15 +48,14 @@ public final class JSONParser {
 				
 				JSONObject location = getInnerObject(venueObject, _LOCATION);
 				/**
-				 * Checks if the ADDRESS Object is avaialble 
+				 * Checks if the ADDRESS Object is available 
 				 */
 				if(location.has(_ADDRESS))
 					venue.setAddress(location.getString(_ADDRESS));
 				
 				venue.setLatitude(location.getDouble(_LATITUDE));
 				venue.setLongtitude(location.getDouble(_LONGITUDE));
-				
-				venuesList.add(venue);
+				listOfVenues.add(venue);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -72,8 +72,8 @@ public final class JSONParser {
 		return jsonObject;
 	}
 	
-	protected List<Venue> getVenuesList() {
-		return venuesList;
+	public List<Venue> getVenues() {
+		return listOfVenues;
 	}
 	
 }

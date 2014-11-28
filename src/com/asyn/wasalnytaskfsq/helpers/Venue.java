@@ -1,9 +1,14 @@
 package com.asyn.wasalnytaskfsq.helpers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.android.gms.maps.model.LatLng;
 
 
 public class Venue {
+	
+	protected static List<Venue> venues = new ArrayList<Venue>();
 	
 	private String id;
 	private String name;
@@ -72,6 +77,10 @@ public class Venue {
 			builder.append("Address: " + address + "\n");
 		builder.append("Location: " + getLocation());
 		return builder.toString();
+	}
+	
+	public static List<Venue> getVenues() {
+		return venues;
 	}
 	
 }

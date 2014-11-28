@@ -22,27 +22,28 @@ import android.util.Log;
 public class NearbyVenuesReader {
 	
 	private String url;
-	private StringBuilder builder;
+	private OnTaskCompletedListener listener;
 	
+	private StringBuilder builder;
 	private List<Venue> venues;
 	
-	public NearbyVenuesReader(String url) {
+	public NearbyVenuesReader(String url, OnTaskCompletedListener listener) {
 		this.url = url;
+		this.listener = listener;
 		venues = new ArrayList<Venue>();
 		new ReadJSONTask().execute();
 	} // end constructor
 	
-	private class ReadJSONTask extends AsyncTask<Object, Void, StringBuilder> {
+	private class ReadJSONTask extends AsyncTask<Object, Void, Void> {
 
 		@Override
-		protected StringBuilder doInBackground(Object... params) {
+		protected Void doInBackground(Object... params) {
 			builder = new StringBuilder();
 			HttpClient client = new DefaultHttpClient();
 			HttpGet httpGet = new HttpGet(url);
 			
 			HttpResponse response;
 			Log.v("HTTP GET", "HTTP RESPONSE SUCCESSEFUL");
-			JSONParser jsonParser = null;
 			try {
 				response = client.execute(httpGet);
 				StatusLine statusLine = response.getStatusLine();
@@ -56,9 +57,8 @@ public class NearbyVenuesReader {
 					String line;
 					while((line = reader.readLine()) != null)
 						builder.append(line);
-					jsonParser = new JSONParser(builder);
-					jsonParser.parseVenues();
-					venues = jsonParser.getVenuesList();
+					JSONParser jsonParser = new JSONParser(builder);
+					venues = jsonParser.getVenues();
 				} else {
 					Log.e("NEARBY", "Failed to download file");
 				}
@@ -66,14 +66,14 @@ public class NearbyVenuesReader {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}			
-			
-			return builder;
+			}
+			return null;
 		}
 		
-		protected void onPostExecute(List<Venue> venues) {
-			Log.v(NearbyVenuesReader.class.getSimpleName(), "Size: " + venues.size());
-		};
+		@Override
+		protected void onPostExecute(Void result) {
+			listener.onTaskTaskCompleted();
+		}
 	} // end of async class
 	
 	public List<Venue> getVenues() {
