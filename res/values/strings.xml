@@ -8,5 +8,6 @@
     <string name="app_not_installed_message">To do this, you’ll need the latest version of Foursquare installed.</string>
     <string name="login">Login</string>
     <string name="title_activity_find_places">Find Places</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>

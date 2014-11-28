@@ -6,5 +6,7 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Ahmed/workspace/google-play-services_lib/libs/google-play-services.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed/Downloads/picasso-2.4.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed/Downloads/universal-image-loader-1.9.3.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
