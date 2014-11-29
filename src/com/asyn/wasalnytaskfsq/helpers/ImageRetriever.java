@@ -12,18 +12,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.asyn.wasalnytaskfsq.FindPlaces;
 import com.asyn.wasalnytaskfsq.models.Venue;
 import com.asyn.wasalnytaskfsq.utilities.PhotoJSONHandler;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-import com.squareup.picasso.Picasso.LoadedFrom;
 
 
 public class ImageRetriever {
@@ -35,12 +29,9 @@ public class ImageRetriever {
 	//private OnTaskCompletedListener listener;
 	private StringBuilder builder;
 	private Venue venue;
-	private Context context;
 	
-	public ImageRetriever(Venue venue, Context context) {
+	public ImageRetriever(Venue venue) {
 		this.venue = venue;
-		this.context = context;
-		//this.listener = listener;
 		new GetImages().execute();
 	}
 	
@@ -76,32 +67,8 @@ public class ImageRetriever {
 		
 		@Override
 		protected void onPostExecute(Void result) {
-			downloadImages("");
 		}
 		
-	}
-	
-	private void downloadImages(String url) {
-		Picasso.with(context).load(url).into(new Target() {
-			
-			@Override
-			public void onPrepareLoad(Drawable drawable) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onBitmapLoaded(Bitmap bitmap, LoadedFrom url) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onBitmapFailed(Drawable drawable) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
 	}
 	
 }
