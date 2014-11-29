@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 public class FindPlaces extends Activity {
 
@@ -33,7 +34,7 @@ public class FindPlaces extends Activity {
 	private static final String O_AUTH = "&oauth_token=";
 	private static final String API_V_D = "&v=20141127";
 
-	private String oauth_token;
+	private static String oauth_token; // find a better way
 
 	private GoogleMap map;
 	private ShowLocation currentLocation;
@@ -46,6 +47,18 @@ public class FindPlaces extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_find_places);
 		initialize();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		currentLocation.removeUpdates(); // Stop Location Updates When Pause
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		currentLocation.requestUpdates(); // Request Location Updates when Resume
 	}
 
 	
@@ -88,7 +101,8 @@ public class FindPlaces extends Activity {
 		if(currentLocation == null)
 			currentLocation = new ShowLocation(this);
 		
-		oauth_token = getIntent().getStringExtra(AuthenticationActivity.O_AUTH_TOKEN);
+		setOauthToken(getIntent().getStringExtra(AuthenticationActivity.O_AUTH_TOKEN));
+//		oauth_token = getIntent().getStringExtra(AuthenticationActivity.O_AUTH_TOKEN);
 		String lat = Double.toString(currentLocation.getLocation().getLatitude());
 		String lng = Double.toString(currentLocation.getLocation().getLongitude());
 		
@@ -192,4 +206,10 @@ public class FindPlaces extends Activity {
 		}
 	};
 	
+	private void setOauthToken(String oauth_token) {
+		if(this.oauth_token == null)
+			this.oauth_token = oauth_token;
+	}
+	
+	public static String getOAuthToken() { return oauth_token; }
 }

@@ -59,6 +59,10 @@ public final class JSONHandler {
 				
 				venue.setLatitude(location.getDouble(_LATITUDE));
 				venue.setLongtitude(location.getDouble(_LONGITUDE));
+				
+				/**
+				 * Get Image URL for Each Photo if available
+				 */
 				new ImageRetriever(venue);
 				Log.v("Image", "Image Retrived for: " + venue.getName());
 				listOfVenues.add(venue);
