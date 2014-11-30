@@ -13,8 +13,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.asyn.wasalnytaskfsq.actions.*;
+import com.asyn.wasalnytaskfsq.actions.CheckIn;
+import com.asyn.wasalnytaskfsq.actions.DownloadImages;
+import com.asyn.wasalnytaskfsq.actions.NearbyVenues;
 import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
+import com.asyn.wasalnytaskfsq.constants.AuthKeys;
 import com.asyn.wasalnytaskfsq.models.Venue;
 import com.asyn.wasalnytaskfsq.utilities.ShowLocation;
 import com.asyn.wasalnytaskfsq.utilities.VenueCache;
@@ -91,7 +94,7 @@ public class FindPlaces extends Activity {
 		if(currentLocation == null)
 			currentLocation = new ShowLocation(this);
 		
-		oauth_token = getIntent().getStringExtra(AuthenticationActivity.O_AUTH_TOKEN);
+		oauth_token = getIntent().getStringExtra(AuthKeys.O_AUTH_TOKEN);
 		String lat = Double.toString(currentLocation.getLocation().getLatitude());
 		String lng = Double.toString(currentLocation.getLocation().getLongitude());
 		

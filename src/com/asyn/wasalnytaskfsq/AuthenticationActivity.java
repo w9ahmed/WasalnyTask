@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.asyn.wasalnytaskfsq.constants.AuthKeys;
 import com.asyn.wasalnytaskfsq.utilities.DataCache;
 import com.foursquare.android.nativeoauth.FoursquareCancelException;
 import com.foursquare.android.nativeoauth.FoursquareDenyException;
@@ -24,17 +25,9 @@ import com.foursquare.android.nativeoauth.model.AccessTokenResponse;
 import com.foursquare.android.nativeoauth.model.AuthCodeResponse;
 
 public class AuthenticationActivity extends Activity {
-	protected static final String O_AUTH_TOKEN = "OAuth_Token";
 	
 	private static final int REQUEST_CODE_FSQ_CONNECT = 200;
 	private static final int REQUEST_CODE_FSQ_TOKEN_EXCHANGE = 201;
-
-	/**
-	 * Obtain your client id and secret from:
-	 * https://foursquare.com/developers/apps
-	 */
-	private static final String CLIENT_ID = "FE42U3IMGYMDPRHSAPNFVPYYNRQNUZ5ZQECCIABCOBPIAPOF";
-	private static final String CLIENT_SECRET = "KW04JW3EEKK25P0PLB4NZPJ4RGBHQGAFUKNUSI1AC1K0Z0TO";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +70,13 @@ public class AuthenticationActivity extends Activity {
 			public void onClick(View v) {
 				// Start the native auth flow.
 				Intent intent = FoursquareOAuth.getConnectIntent(
-						AuthenticationActivity.this, CLIENT_ID);
+						AuthenticationActivity.this, AuthKeys.CLIENT_ID);
 
-				// If the device does not have the Foursquare app installed,
-				// we'd
-				// get an intent back that would open the Play Store for
-				// download.
-				// Otherwise we start the auth flow.
+				/*
+				 * If the device does not have the Foursquare app installed,
+				 * we'd get an intent back that would open the Play Store for download.
+				 * Otherwise we start the auth flow.
+				 */
 				if (FoursquareOAuth.isPlayStoreIntent(intent)) {
 					toastMessage(AuthenticationActivity.this,
 							getString(R.string.app_not_installed_message));
@@ -158,7 +151,7 @@ public class AuthenticationActivity extends Activity {
 			 */
 			Intent intent = new Intent(AuthenticationActivity.this, FindPlaces.class);
 			new DataCache(AuthenticationActivity.this, "oauth").cache("token", accessToken); // Storing Key
-			intent.putExtra(O_AUTH_TOKEN, accessToken);
+			intent.putExtra(AuthKeys.O_AUTH_TOKEN, accessToken);
 			startActivity(intent);
 			this.finish();
 		} else {
@@ -186,8 +179,8 @@ public class AuthenticationActivity extends Activity {
 	 * The auth code returned from the native auth flow.
 	 */
 	private void performTokenExchange(String code) {
-		Intent intent = FoursquareOAuth.getTokenExchangeIntent(this, CLIENT_ID,
-				CLIENT_SECRET, code);
+		Intent intent = FoursquareOAuth.getTokenExchangeIntent(this, AuthKeys.CLIENT_ID,
+				AuthKeys.CLIENT_SECRET, code);
 		startActivityForResult(intent, REQUEST_CODE_FSQ_TOKEN_EXCHANGE);
 	}
 

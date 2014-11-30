@@ -9,8 +9,8 @@ import org.json.JSONObject;
 import com.asyn.wasalnytaskfsq.connections.JsonRetriever;
 import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
 import com.asyn.wasalnytaskfsq.connections.OnTaskStartedListener;
+import com.asyn.wasalnytaskfsq.constants.Keys;
 import com.asyn.wasalnytaskfsq.models.Venue;
-import com.asyn.wasalnytaskfsq.models.constants.Keys;
 import com.asyn.wasalnytaskfsq.utilities.JsonTools;
 
 public class NearbyVenues {
