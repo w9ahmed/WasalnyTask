@@ -23,6 +23,6 @@ public final class Keys {
 		public static final String _ICON = "icon";
 		public static final String _PREFIX = "prefix";
 		public static final String _SUFFIX = "suffix";
-		public static final String _ICON_SIZE = "bg_32";
+		public static final String _ICON_SIZE = "bg_100";
 	}
 }

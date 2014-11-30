@@ -2,12 +2,12 @@ package com.asyn.wasalnytaskfsq.connections;
 
 import java.util.HashMap;
 
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 
 import com.asyn.wasalnytaskfsq.models.Venue;
 
 public interface OnTaskCompletedListener {
 	void onTaskCompleted();
-	void onTaskComlpeted(HashMap<String, Drawable> iconSet);
+	void onTaskComlpeted(HashMap<String, Bitmap> iconSet);
 	void onTaskCompleted(Venue venue, int statusCode);
 }

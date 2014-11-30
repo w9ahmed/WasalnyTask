@@ -3,9 +3,10 @@ package com.asyn.wasalnytaskfsq;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -131,7 +134,7 @@ public class FindPlaces extends Activity {
 		}
 
 		@Override
-		public void onTaskComlpeted(HashMap<String, Drawable> iconSet) {
+		public void onTaskComlpeted(HashMap<String, Bitmap> iconSet) {
 			
 		}
 	};
@@ -201,7 +204,7 @@ public class FindPlaces extends Activity {
 		}
 
 		@Override
-		public void onTaskComlpeted(HashMap<String, Drawable> iconSet) {
+		public void onTaskComlpeted(HashMap<String, Bitmap> iconSet) {
 			
 		}
 	};
@@ -220,8 +223,14 @@ public class FindPlaces extends Activity {
 		}
 
 		@Override
-		public void onTaskComlpeted(HashMap<String, Drawable> iconSet) {
-			// Log.v("Cinq sur Cinq", "Bravo Capitaine!");
+		public void onTaskComlpeted(HashMap<String, Bitmap> iconSet) {
+			Map<Marker, Venue> map = venueMarkers;
+			for (Map.Entry<Marker, Venue> entry : map.entrySet()) {
+				Marker marker = entry.getKey();
+				Bitmap bitmap = iconSet.get(entry.getValue().getCategory());
+				BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(bitmap);
+				marker.setIcon(icon);
+			}
 		}
 	};
 	

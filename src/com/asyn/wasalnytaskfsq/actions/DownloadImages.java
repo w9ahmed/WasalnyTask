@@ -10,8 +10,6 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -22,12 +20,12 @@ public class DownloadImages {
 	
 	private OnTaskCompletedListener onTaskCompletedListener;
 	private List<Venue> venues;
-	private HashMap<String, Drawable> iconSet;
+	private HashMap<String, Bitmap> iconSet;
 	
 	public DownloadImages(List<Venue> venues, OnTaskCompletedListener onTaskCompletedListener) {
 		this.venues = venues;
 		this.onTaskCompletedListener = onTaskCompletedListener;
-		iconSet = new HashMap<String, Drawable>();
+		iconSet = new HashMap<String, Bitmap>();
 	}
 	
 	public void execute() {
@@ -43,10 +41,7 @@ public class DownloadImages {
 				if(iconSet.containsKey(venue.getCategory()) == false) {
 					Bitmap bitmap = getBitmapFromURL(venue.getPhotoURL());
 					if(bitmap != null) {
-						Drawable drawable = new BitmapDrawable(bitmap);
-						iconSet.put(venue.getCategory(), drawable);
-						int i = 0; // TODO remove
-						Log.v("Okay", "Okey");
+						iconSet.put(venue.getCategory(), bitmap);
 					}
 				}
 			}			
