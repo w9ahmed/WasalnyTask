@@ -108,12 +108,17 @@ public class FindPlaces extends Activity {
 	private void traceMarkers() { // TODO caching data from the first time
 		List<Venue> venues = nearbyVenues.getVenues();
 		venueMarkers = new HashMap<Marker, Venue>();
-		int index = 0;
+		int index = 0; // TODO
 		for (Venue venue : venues) {
 			Marker marker = map.addMarker(new MarkerOptions().position(
 					venue.getLocation()).title(venue.getName()));
-			new VenueCache(FindPlaces.this, venue, index++).cache();
-			Log.v("Venue " + (index -1), "Cached!"); // TODO remove
+			VenueCache cache = new VenueCache(FindPlaces.this, venue, index++); // TODO
+			if(cache.itItCached())
+				Log.v("Cached!", "Do Nothing, Already Cached!"); // TODO
+			else {
+				cache.cache();
+				Log.v("Venue " + (index -1), "Cached!"); // TODO remove
+			}				
 			venueMarkers.put(marker, venue);
 		}
 	}
