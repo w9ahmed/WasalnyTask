@@ -24,7 +24,6 @@ import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.squareup.picasso.Picasso;
 
 public class FindPlaces extends Activity {
 
@@ -40,6 +39,7 @@ public class FindPlaces extends Activity {
 	private ShowLocation currentLocation;
 	
 	private NearbyVenues nearbyVenues;
+	
 	private HashMap<Marker, Venue> venueMarkers;
 
 	@Override
@@ -132,12 +132,12 @@ public class FindPlaces extends Activity {
 	 */
 	private OnTaskCompletedListener asyncTaskCompletedListener = new OnTaskCompletedListener() {
 		@Override
-		public void onTaskTaskCompleted() {
+		public void onTaskCompleted() {
 			traceMarkers();
 		}
 
 		@Override
-		public void onTaskTaskCompleted(Venue venue, int statusCode) {
+		public void onTaskCompleted(Venue venue, int statusCode) {
 		}
 	};
 	
@@ -194,7 +194,7 @@ public class FindPlaces extends Activity {
 	private OnTaskCompletedListener checkinCompletedListener = new OnTaskCompletedListener() {
 		
 		@Override
-		public void onTaskTaskCompleted(Venue venue, int statusCode) {
+		public void onTaskCompleted(Venue venue, int statusCode) {
 			if(statusCode == HttpURLConnection.HTTP_OK)
 				Toast.makeText(getApplicationContext(), "Checked at: " + venue.getName(), Toast.LENGTH_LONG).show();
 			else
@@ -202,7 +202,7 @@ public class FindPlaces extends Activity {
 		}			
 		
 		@Override
-		public void onTaskTaskCompleted() {
+		public void onTaskCompleted() {
 		}
 	};
 	

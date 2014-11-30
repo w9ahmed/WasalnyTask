@@ -1,85 +1,69 @@
 package com.asyn.wasalnytaskfsq.helpers;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.asyn.wasalnytaskfsq.models.Venue;
-import com.asyn.wasalnytaskfsq.utilities.JSONHandler;
-
-import android.os.AsyncTask;
-import android.util.Log;
+import com.asyn.wasalnytaskfsq.models.constants.Keys;
+import com.asyn.wasalnytaskfsq.utilities.JsonTools;
 
 public class NearbyVenues {
 	
-	private String url;
-	private OnTaskCompletedListener listener;
+	private JsonRetriever asynUpdating;
+	private List<Venue> listOfVenues;
 	
-	private StringBuilder builder;
-	private List<Venue> venues;
+	public NearbyVenues(String url, OnTaskCompletedListener onTaskCompletedListener) {
+		listOfVenues = new ArrayList<Venue>();
+		asynUpdating = new JsonRetriever(url, onTaskStartedListener, onTaskCompletedListener);
+		asynUpdating.execute();
+	}
 	
-	public NearbyVenues(String url, OnTaskCompletedListener listener) {
-		this.url = url;
-		this.listener = listener;
-		venues = new ArrayList<Venue>();
-		new ReadJSONTask().execute();
-	} // end constructor
 	
-	private class ReadJSONTask extends AsyncTask<Object, Void, Void> {
-
+	/**
+	 * 
+	 */
+	private OnTaskStartedListener onTaskStartedListener = new OnTaskStartedListener() {
 		@Override
-		protected Void doInBackground(Object... params) {
-			builder = new StringBuilder();
-			HttpClient client = new DefaultHttpClient();
-			HttpGet httpGet = new HttpGet(url);
+		public void onTaskStarted(StringBuilder responseData) {
+			JSONObject jsonFile = JsonTools.getJsonObjectFromResponse(responseData.toString());
+			JSONObject response = JsonTools.getJsonObjectFrom(jsonFile, Keys._RESPONSE);
+			JSONArray venues = JsonTools.getJsonArrayFrom(response, Keys.Venues._VENUES);
+			parseVenues(venues);
+		}
+	};
+	
+	
+	/**
+	 * 
+	 * @param venues
+	 */
+	private void parseVenues(JSONArray venues) {
+		for(int i = 0; i < venues.length(); i++) {
+			JSONObject venueObject = JsonTools.getJsonObjectFrom(venues, i);
+			Venue venue = new Venue();
 			
-			HttpResponse response;
-			Log.v("HTTP GET", "HTTP RESPONSE SUCCESSEFUL");
-			try {
-				response = client.execute(httpGet);
-				StatusLine statusLine = response.getStatusLine();
-				int statusCode = statusLine.getStatusCode();
-				Log.v("STATUS", "CODE: " + statusCode);
-				
-				if(statusCode == HttpURLConnection.HTTP_OK) {
-					HttpEntity entity = response.getEntity();
-					InputStream inputStream = entity.getContent();
-					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-					String line;
-					while((line = reader.readLine()) != null)
-						builder.append(line);
-					JSONHandler jsonParser = new JSONHandler(builder);
-					venues = jsonParser.getVenues();
-				} else {
-					Log.e("NEARBY", "Failed to download file");
-				}
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return null;
+			venue.setId(JsonTools.getString(venueObject, Keys.Venues._ID));
+			venue.setName(JsonTools.getString(venueObject, Keys.Venues._NAME));
+			
+			JSONObject location = JsonTools.getJsonObjectFrom(venueObject, Keys.Venues._LOCATION);
+			
+			if(JsonTools.has(location, Keys.Venues._ADDRESS))
+				venue.setAddress(JsonTools.getString(location, Keys.Venues._ADDRESS));
+			
+			venue.setLatitude(JsonTools.getDouble(location, Keys.Venues._LATITUDE));
+			venue.setLongtitude(JsonTools.getDouble(location, Keys.Venues._LONGITUDE));
+			
+			// Adding venue to listOfVenues
+			listOfVenues.add(venue);
 		}
-		
-		@Override
-		protected void onPostExecute(Void result) {
-			listener.onTaskTaskCompleted();
-		}
-	} // end of ASYNC class
+	}
+	
 	
 	public List<Venue> getVenues() {
-		return venues;
+		return listOfVenues;
 	}
+
 }

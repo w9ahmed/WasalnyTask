@@ -58,7 +58,7 @@ public class CheckIn {
 		
 		@Override
 		protected void onPostExecute(Void result) {
-			listener.onTaskTaskCompleted(venue, statusCode);
+			listener.onTaskCompleted(venue, statusCode);
 		}
 	}
 	

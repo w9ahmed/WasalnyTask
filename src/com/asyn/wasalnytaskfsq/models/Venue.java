@@ -17,6 +17,7 @@ public class Venue {
 	private Drawable photo;
 
 	public Venue() {
+
 	}
 
 	public String getId() {
@@ -85,7 +86,6 @@ public class Venue {
 	public LatLng getLocation() {
 		return new LatLng(latitude, longitude);
 	}
-		
 
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
