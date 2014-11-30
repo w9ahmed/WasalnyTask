@@ -39,4 +39,10 @@ public class DataCache {
 			return false;
 	}
 	
+	public void clear() {
+		Editor editor = preferences.edit();
+		editor.clear();
+		editor.apply();
+	}
+	
 }

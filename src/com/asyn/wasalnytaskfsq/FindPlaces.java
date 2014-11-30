@@ -8,7 +8,6 @@ import java.util.Map;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +19,6 @@ import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
 import com.asyn.wasalnytaskfsq.constants.AuthKeys;
 import com.asyn.wasalnytaskfsq.models.Venue;
 import com.asyn.wasalnytaskfsq.utilities.ShowLocation;
-import com.asyn.wasalnytaskfsq.utilities.VenueCache;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
@@ -108,20 +106,12 @@ public class FindPlaces extends Activity {
 	 * Draw Markers on the Map
 	 * Called in: asyncTaskCompletedListener
 	 */
-	private void traceMarkers() { // TODO caching data from the first time
+	private void traceMarkers() {
 		List<Venue> venues = nearbyVenues.getVenues();
 		venueMarkers = new HashMap<Marker, Venue>();
-		int index = 0; // TODO
 		for (Venue venue : venues) {
 			Marker marker = map.addMarker(new MarkerOptions().position(
-					venue.getLocation()).title(venue.getName()));
-			VenueCache cache = new VenueCache(FindPlaces.this, venue, index++); // TODO
-			if(cache.itItCached())
-				Log.v("Cached!", "Do Nothing, Already Cached!"); // TODO
-			else {
-				cache.cache();
-				Log.v("Venue " + (index -1), "Cached!"); // TODO remove
-			}				
+					venue.getLocation()).title(venue.getName()));			
 			venueMarkers.put(marker, venue);
 		}
 	}

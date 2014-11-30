@@ -15,7 +15,7 @@ public class VenueCache {
 		cache = new DataCache(context, name);
 	}
 	
-	public void cache() {
+	public void cacheVenue() {
 		cache.cache("id", venue.getId());
 		cache.cache("name", venue.getName());
 		cache.cache("category", venue.getCategory());
@@ -37,5 +37,9 @@ public class VenueCache {
 	
 	public boolean itItCached() {
 		return cache.isItCached("id", venue.getId());
+	}
+	
+	public void clear() {
+		cache.clear();
 	}
 }
