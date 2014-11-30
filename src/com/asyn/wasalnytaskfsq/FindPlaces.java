@@ -8,6 +8,7 @@ import java.util.Map;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import com.asyn.wasalnytaskfsq.actions.DownloadImages;
 import com.asyn.wasalnytaskfsq.actions.NearbyVenues;
 import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
 import com.asyn.wasalnytaskfsq.constants.AuthKeys;
+import com.asyn.wasalnytaskfsq.database.VenuesDataSource;
 import com.asyn.wasalnytaskfsq.models.Venue;
 import com.asyn.wasalnytaskfsq.utilities.ShowLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,6 +44,7 @@ public class FindPlaces extends Activity {
 	private GoogleMap map;
 	private ShowLocation currentLocation;
 	
+	private VenuesDataSource dataSource; // TODO
 	private NearbyVenues nearbyVenues;
 	
 	private HashMap<Marker, Venue> venueMarkers;
@@ -63,8 +66,9 @@ public class FindPlaces extends Activity {
 		map.setInfoWindowAdapter(infoWindowAdapter);
 		map.setOnInfoWindowClickListener(infoWindowClickListener);
 		
-		getMyCurrentLocation();		
-		nearbyVenues = new NearbyVenues(buildAPIURL(), getVenuesTaskCompletedListener);
+		getMyCurrentLocation();
+//		getVenuesFromDB(); // TODO
+		nearbyVenues = new NearbyVenues(FindPlaces.this, buildAPIURL(), getVenuesTaskCompletedListener); // TODO Context Add
 	}
 	
 	
@@ -100,7 +104,16 @@ public class FindPlaces extends Activity {
 		return url;
 	}
 	
-	
+	private void getVenuesFromDB() {
+		dataSource = new VenuesDataSource(FindPlaces.this);
+		List<Venue> venues = new VenuesDataSource(FindPlaces.this).getAllVenues(); // TODO
+		Log.v("DB", "SIZE: " + venues.size());
+		if(venues.size() > 0) {
+			for (Venue venue : venues) {
+				map.addMarker(new MarkerOptions().position(venue.getLocation()).title(venue.getName()));
+			}
+		}
+	}
 	
 	/**
 	 * Draw Markers on the Map
@@ -123,6 +136,7 @@ public class FindPlaces extends Activity {
 	private OnTaskCompletedListener getVenuesTaskCompletedListener = new OnTaskCompletedListener() {
 		@Override
 		public void onTaskCompleted() {
+			//TODO map.clear();
 			traceMarkers();
 			new DownloadImages(nearbyVenues.getVenues(), imageLoadCompletedListener).execute();
 		}

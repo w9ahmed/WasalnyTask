@@ -33,6 +33,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_VENUES);
 		db.execSQL(DATABASE_CREATE);
 	}
 

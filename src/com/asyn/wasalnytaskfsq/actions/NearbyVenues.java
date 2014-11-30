@@ -6,10 +6,13 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.content.Context;
+
 import com.asyn.wasalnytaskfsq.connections.JsonRetriever;
 import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
 import com.asyn.wasalnytaskfsq.connections.OnTaskStartedListener;
 import com.asyn.wasalnytaskfsq.constants.Keys;
+import com.asyn.wasalnytaskfsq.database.VenuesDataSource;
 import com.asyn.wasalnytaskfsq.models.Venue;
 import com.asyn.wasalnytaskfsq.utilities.JsonTools;
 
@@ -17,10 +20,13 @@ public class NearbyVenues {
 
 	private JsonRetriever jsonRetriever;
 	private List<Venue> listOfVenues;
+	private VenuesDataSource dataSource;
 
-	public NearbyVenues(String url,
+	public NearbyVenues(Context context, String url,
 			OnTaskCompletedListener onTaskCompletedListener) {
 		listOfVenues = new ArrayList<Venue>();
+		dataSource = new VenuesDataSource(context); // TODO Context Add
+		dataSource.open();
 		jsonRetriever = new JsonRetriever(url, onTaskStartedListener,
 				onTaskCompletedListener);
 		jsonRetriever.execute();

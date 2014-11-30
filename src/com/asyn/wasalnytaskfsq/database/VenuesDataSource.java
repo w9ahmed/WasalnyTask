@@ -14,15 +14,17 @@ public class VenuesDataSource {
 
 	private SQLiteDatabase database;
 	private SQLiteHelper dbHelper;
-	private String[] allColumns = { SQLiteHelper.VENUE_ID,
-			SQLiteHelper.VENUE_NAME, SQLiteHelper.VENUE_CATEGORY,
-			SQLiteHelper.VENUE_ADDRESS, SQLiteHelper.VENUE_LATITUDE,
-			SQLiteHelper.VENUE_LONGITUDE, SQLiteHelper.VENUE_PHOTO_URL };
-	
+	private String[] allColumns = { SQLiteHelper.COLUMN_ID,
+			SQLiteHelper.VENUE_ID, SQLiteHelper.VENUE_NAME,
+			SQLiteHelper.VENUE_CATEGORY, SQLiteHelper.VENUE_ADDRESS,
+			SQLiteHelper.VENUE_LATITUDE, SQLiteHelper.VENUE_LONGITUDE,
+			SQLiteHelper.VENUE_PHOTO_URL };
+
 	private List<Venue> venues;
 
 	public VenuesDataSource(Context context) {
 		dbHelper = new SQLiteHelper(context);
+		venues = new ArrayList<Venue>();
 	}
 
 	public void open() {
@@ -33,7 +35,7 @@ public class VenuesDataSource {
 		database.close();
 	}
 
-	public Venue storeVenue(Venue venue) {
+	public void storeVenue(Venue venue) {
 		ContentValues values = new ContentValues();
 
 		values.put(SQLiteHelper.VENUE_ID, venue.getId());
@@ -44,20 +46,10 @@ public class VenuesDataSource {
 		values.put(SQLiteHelper.VENUE_LONGITUDE, venue.getLongtitude());
 		values.put(SQLiteHelper.VENUE_PHOTO_URL, venue.getPhotoURL());
 
-		long insertId = database
-				.insert(SQLiteHelper.TABLE_VENUES, null, values);
-
-		Cursor cursor = database.query(SQLiteHelper.TABLE_VENUES, allColumns,
-				SQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null,
-				null);
-
-		Venue newVenue = cursorToVenue(cursor);
-		cursor.close();
-		return newVenue;
+		database.insert(SQLiteHelper.TABLE_VENUES, null, values);
 	}
 
 	public List<Venue> getAllVenues() {
-		venues = new ArrayList<Venue>();
 		Cursor cursor = database.query(SQLiteHelper.TABLE_VENUES, allColumns,
 				null, null, null, null, null);
 		cursor.moveToFirst();
@@ -73,20 +65,14 @@ public class VenuesDataSource {
 
 	private Venue cursorToVenue(Cursor cursor) {
 		Venue venue = new Venue();
-		venue.setId(cursor.getString(1));
-		venue.setName(cursor.getString(2));
-		venue.setCategory(cursor.getString(3));
-		venue.setAddress(cursor.getString(4));
-		venue.setLatitude(cursor.getDouble(5));
-		venue.setLongtitude(cursor.getDouble(6));
-		venue.setPhotoURL(cursor.getString(7));
+		int i = 1;
+		venue.setId(cursor.getString(i));
+		venue.setName(cursor.getString(++i));
+		venue.setCategory(cursor.getString(++i));
+		venue.setAddress(cursor.getString(++i));
+		venue.setLatitude(cursor.getDouble(++i));
+		venue.setLongtitude(cursor.getDouble(++i));
+		venue.setPhotoURL(cursor.getString(++i));
 		return venue;
-	}
-	
-	public boolean isItEmpty() {
-		if(venues.size() == 0)
-			return true;
-		else
-			return false;
 	}
 }
