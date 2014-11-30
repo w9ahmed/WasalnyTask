@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -183,7 +182,7 @@ public class AuthenticationActivity extends Activity {
 	 * demo purposes.
 	 * 
 	 * @param code
-	 *            The auth code returned from the native auth flow.
+	 * The auth code returned from the native auth flow.
 	 */
 	private void performTokenExchange(String code) {
 		Intent intent = FoursquareOAuth.getTokenExchangeIntent(this, CLIENT_ID,
@@ -191,10 +190,20 @@ public class AuthenticationActivity extends Activity {
 		startActivityForResult(intent, REQUEST_CODE_FSQ_TOKEN_EXCHANGE);
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param message
+	 */
 	public static void toastMessage(Context context, String message) {
 		Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 	}
-
+	
+	/**
+	 * 
+	 * @param context
+	 * @param throwable
+	 */
 	public static void toastError(Context context, Throwable t) {
 		Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
 	}

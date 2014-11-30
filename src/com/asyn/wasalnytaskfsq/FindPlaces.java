@@ -95,8 +95,7 @@ public class FindPlaces extends Activity {
 		if(currentLocation == null)
 			currentLocation = new ShowLocation(this);
 		
-		setOauthToken(getIntent().getStringExtra(AuthenticationActivity.O_AUTH_TOKEN));
-//		oauth_token = getIntent().getStringExtra(AuthenticationActivity.O_AUTH_TOKEN);
+		oauth_token = getIntent().getStringExtra(AuthenticationActivity.O_AUTH_TOKEN);
 		String lat = Double.toString(currentLocation.getLocation().getLatitude());
 		String lng = Double.toString(currentLocation.getLocation().getLongitude());
 		
@@ -236,12 +235,8 @@ public class FindPlaces extends Activity {
 		}
 	};
 	
-	private void setOauthToken(String oauth_token) {
-		if(this.oauth_token == null)
-			this.oauth_token = oauth_token;
-	}
 	
-	public static String getOAuthToken() { return oauth_token; }
+	//public static String getOAuthToken() { return oauth_token; }
 	
 	
 	/**
