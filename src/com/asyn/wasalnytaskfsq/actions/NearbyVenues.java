@@ -6,8 +6,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.asyn.wasalnytaskfsq.connections.JsonRetriever;
 import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
 import com.asyn.wasalnytaskfsq.connections.OnTaskStartedListener;

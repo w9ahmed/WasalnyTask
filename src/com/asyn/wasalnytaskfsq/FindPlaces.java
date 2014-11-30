@@ -10,18 +10,14 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.asyn.wasalnytaskfsq.actions.CheckIn;
-import com.asyn.wasalnytaskfsq.actions.DownloadImages;
-import com.asyn.wasalnytaskfsq.actions.NearbyVenues;
+import com.asyn.wasalnytaskfsq.actions.*;
 import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
 import com.asyn.wasalnytaskfsq.models.Venue;
 import com.asyn.wasalnytaskfsq.utilities.ShowLocation;
-import com.google.android.gms.internal.ca;
+import com.asyn.wasalnytaskfsq.utilities.VenueCache;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
@@ -109,12 +105,15 @@ public class FindPlaces extends Activity {
 	 * Draw Markers on the Map
 	 * Called in: asyncTaskCompletedListener
 	 */
-	private void traceMarkers() {
+	private void traceMarkers() { // TODO caching data from the first time
 		List<Venue> venues = nearbyVenues.getVenues();
 		venueMarkers = new HashMap<Marker, Venue>();
+		int index = 0;
 		for (Venue venue : venues) {
 			Marker marker = map.addMarker(new MarkerOptions().position(
 					venue.getLocation()).title(venue.getName()));
+			new VenueCache(FindPlaces.this, venue, index++).cache();
+			Log.v("Venue " + (index -1), "Cached!"); // TODO remove
 			venueMarkers.put(marker, venue);
 		}
 	}
@@ -164,11 +163,6 @@ public class FindPlaces extends Activity {
 			TextView venue_address = (TextView) view.findViewById(R.id.venueAddress);
 			venue_address.setText(venue.getAddress());
 			
-			if(venue.getPhotoURL() != null) {
-				Log.v("FindPlaces", venue.getPhotoURL());
-				ImageView venue_photo = (ImageView) view.findViewById(R.id.venueIcon);
-			}
-			
 			return view;
 		}
 	};
@@ -212,7 +206,8 @@ public class FindPlaces extends Activity {
 	
 	
 	/**
-	 * 
+	 * Replaces pins with the new icons,
+	 * When the images load are completed
 	 */
 	private OnTaskCompletedListener imageLoadCompletedListener = new OnTaskCompletedListener() {
 		@Override
@@ -233,11 +228,7 @@ public class FindPlaces extends Activity {
 				marker.setIcon(icon);
 			}
 		}
-	};
-	
-	
-	//public static String getOAuthToken() { return oauth_token; }
-	
+	};	
 	
 	/**
 	 * onPause

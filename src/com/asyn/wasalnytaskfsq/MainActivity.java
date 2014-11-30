@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.asyn.wasalnytaskfsq.utilities.DataCache;
 import com.asyn.wasalnytaskfsq.utilities.Validator;
 
 public class MainActivity extends Activity {
@@ -21,9 +22,9 @@ public class MainActivity extends Activity {
 		cache = new DataCache(getApplicationContext(), "oauth");
 		if (Validator.isNetworkAvailable(MainActivity.this)) {
 			Intent intent;
-			if(cache.getCached("token") != null) {
+			if(cache.getCachedString("token") != null) {
 				intent = new Intent(MainActivity.this, FindPlaces.class); // TODO
-				intent.putExtra(AuthenticationActivity.O_AUTH_TOKEN, cache.getCached("token"));
+				intent.putExtra(AuthenticationActivity.O_AUTH_TOKEN, cache.getCachedString("token"));
 			}
 			else {
 				intent = new Intent(MainActivity.this, AuthenticationActivity.class);

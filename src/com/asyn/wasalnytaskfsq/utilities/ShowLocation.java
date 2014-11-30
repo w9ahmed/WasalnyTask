@@ -20,7 +20,7 @@ public class ShowLocation implements LocationListener {
 		locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		
 		// Define the criteria how to select the location provider
-		provider = locationManager.NETWORK_PROVIDER;
+		provider = LocationManager.NETWORK_PROVIDER;
 		location = locationManager.getLastKnownLocation(provider);
 		
 		if(location != null)
@@ -44,7 +44,7 @@ public class ShowLocation implements LocationListener {
 	}
 	
 	/**
-	 * Request updates
+	 * Request updates 
 	 */
 	public void requestUpdates() {
 		locationManager.requestLocationUpdates(provider, 400, 1, this);
@@ -60,8 +60,7 @@ public class ShowLocation implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		int lat = (int) (location.getAltitude());
-		int lng = (int) (location.getLongitude());
+		this.location = location;
 	}
 
 	@Override
