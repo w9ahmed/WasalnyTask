@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.asyn.wasalnytaskfsq.helpers.ImageRetriever;
+import com.asyn.wasalnytaskfsq.actions.ImageRetriever;
 import com.asyn.wasalnytaskfsq.models.Venue;
 
 public final class JSONHandler {

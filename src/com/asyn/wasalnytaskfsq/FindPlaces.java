@@ -12,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.asyn.wasalnytaskfsq.helpers.CheckIn;
-import com.asyn.wasalnytaskfsq.helpers.NearbyVenues;
-import com.asyn.wasalnytaskfsq.helpers.OnTaskCompletedListener;
+import com.asyn.wasalnytaskfsq.actions.CheckIn;
+import com.asyn.wasalnytaskfsq.actions.NearbyVenues;
+import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
 import com.asyn.wasalnytaskfsq.models.Venue;
 import com.asyn.wasalnytaskfsq.utilities.ShowLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;

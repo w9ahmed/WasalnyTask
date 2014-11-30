@@ -17,16 +17,12 @@ public final class Keys {
 		public static final String _ADDRESS = "address";
 		public static final String _LATITUDE = "lat";
 		public static final String _LONGITUDE = "lng";
-	}
-
-	public static class VenuePhotos {
-		public static final String _PHOTOS = "photos";
-		public static final String _ITEMS = "items";
-
+		
+		public static final String _CATEGORIES = "categories";
+		public static final int _CATEGORY_INFO = 0;
+		public static final String _ICON = "icon";
 		public static final String _PREFIX = "prefix";
 		public static final String _SUFFIX = "suffix";
-
-		public static final String SIZE = "100x100";
+		public static final String _ICON_SIZE = "bg_32";
 	}
-
 }
