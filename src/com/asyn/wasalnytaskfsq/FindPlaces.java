@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.asyn.wasalnytaskfsq.actions.NearbyVenues;
 import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
 import com.asyn.wasalnytaskfsq.models.Venue;
 import com.asyn.wasalnytaskfsq.utilities.ShowLocation;
+import com.google.android.gms.internal.ca;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
@@ -38,7 +40,7 @@ public class FindPlaces extends Activity {
 	private static final String O_AUTH = "&oauth_token=";
 	private static final String API_V_D = "&v=20141127";
 
-	private static String oauth_token; // find a better way
+	private static String oauth_token; // TODO find a better way
 
 	private GoogleMap map;
 	private ShowLocation currentLocation;

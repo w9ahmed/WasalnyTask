@@ -11,7 +11,7 @@ public final class R {
 		public static final int frame = 0x7f090058;
 	}
 	public static final class layout {
-		public static final int loading = 0x7f03001a;
+		public static final int loading = 0x7f03001b;
 	}
 	public static final class string {
 		public static final int loading = 0x7f0a0033;

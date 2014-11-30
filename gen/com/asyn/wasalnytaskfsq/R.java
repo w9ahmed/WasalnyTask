@@ -2160,10 +2160,11 @@ containing a value of this type.
         public static final int abc_search_view=0x7f030015;
         public static final int abc_simple_dropdown_hint=0x7f030016;
         public static final int activity_find_places=0x7f030017;
-        public static final int authentication_main=0x7f030018;
-        public static final int custom_info_window=0x7f030019;
-        public static final int loading=0x7f03001a;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001b;
+        public static final int activity_main=0x7f030018;
+        public static final int authentication_main=0x7f030019;
+        public static final int custom_info_window=0x7f03001a;
+        public static final int loading=0x7f03001b;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001c;
     }
     public static final class menu {
         public static final int find_places=0x7f0c0000;

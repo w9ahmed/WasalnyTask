@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -143,7 +144,7 @@ public class AuthenticationActivity extends Activity {
 		if (exception == null) {
 			String accessToken = tokenResponse.getAccessToken();
 			// Success.
-			toastMessage(this, "Access token: " + accessToken);
+			// toastMessage(this, "Access token: " + accessToken);
 
 			// Persist the token for later use. In this example, we save
 			// it to shared prefs.
@@ -152,10 +153,11 @@ public class AuthenticationActivity extends Activity {
 			// Refresh UI.
 			ensureUi();
 			
-			/**
+			/*
 			 * Move on to the next activity
 			 */
 			Intent intent = new Intent(AuthenticationActivity.this, FindPlaces.class);
+			new DataCache(AuthenticationActivity.this, "oauth").cache("token", accessToken); // Storing Key
 			intent.putExtra(O_AUTH_TOKEN, accessToken);
 			startActivity(intent);
 			this.finish();
