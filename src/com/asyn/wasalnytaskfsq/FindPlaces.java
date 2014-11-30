@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asyn.wasalnytaskfsq.actions.CheckIn;
+import com.asyn.wasalnytaskfsq.actions.DownloadImages;
 import com.asyn.wasalnytaskfsq.actions.NearbyVenues;
 import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
 import com.asyn.wasalnytaskfsq.models.Venue;
@@ -49,19 +51,6 @@ public class FindPlaces extends Activity {
 		initialize();
 	}
 	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		currentLocation.removeUpdates(); // Stop Location Updates When Pause
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		currentLocation.requestUpdates(); // Request Location Updates when Resume
-	}
-
-	
 	/**
 	 * Initialize Map
 	 * Initializer
@@ -73,7 +62,7 @@ public class FindPlaces extends Activity {
 		map.setOnInfoWindowClickListener(infoWindowClickListener);
 		
 		getMyCurrentLocation();		
-		nearbyVenues = new NearbyVenues(buildAPIURL(), asyncTaskCompletedListener);
+		nearbyVenues = new NearbyVenues(buildAPIURL(), getVenuesTaskCompletedListener);
 	}
 	
 	
@@ -130,14 +119,20 @@ public class FindPlaces extends Activity {
 	/**
 	 * Runs after the AsynTask finishes
 	 */
-	private OnTaskCompletedListener asyncTaskCompletedListener = new OnTaskCompletedListener() {
+	private OnTaskCompletedListener getVenuesTaskCompletedListener = new OnTaskCompletedListener() {
 		@Override
 		public void onTaskCompleted() {
 			traceMarkers();
+			new DownloadImages(nearbyVenues.getVenues(), imageLoadCompletedListener).execute();
 		}
 
 		@Override
 		public void onTaskCompleted(Venue venue, int statusCode) {
+		}
+
+		@Override
+		public void onTaskComlpeted(HashMap<String, Drawable> iconSet) {
+			
 		}
 	};
 	
@@ -198,11 +193,35 @@ public class FindPlaces extends Activity {
 			if(statusCode == HttpURLConnection.HTTP_OK)
 				Toast.makeText(getApplicationContext(), "Checked at: " + venue.getName(), Toast.LENGTH_LONG).show();
 			else
-				Toast.makeText(getApplicationContext(), "Unable to Checkin", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "Unable to Check in", Toast.LENGTH_LONG).show();
 		}			
 		
 		@Override
 		public void onTaskCompleted() {
+		}
+
+		@Override
+		public void onTaskComlpeted(HashMap<String, Drawable> iconSet) {
+			
+		}
+	};
+	
+	
+	/**
+	 * 
+	 */
+	private OnTaskCompletedListener imageLoadCompletedListener = new OnTaskCompletedListener() {
+		@Override
+		public void onTaskCompleted(Venue venue, int statusCode) {
+		}
+		
+		@Override
+		public void onTaskCompleted() {
+		}
+
+		@Override
+		public void onTaskComlpeted(HashMap<String, Drawable> iconSet) {
+			// Log.v("Cinq sur Cinq", "Bravo Capitaine!");
 		}
 	};
 	
@@ -212,4 +231,26 @@ public class FindPlaces extends Activity {
 	}
 	
 	public static String getOAuthToken() { return oauth_token; }
+	
+	
+	/**
+	 * onPause
+	 * Stop Location Updates When Pause
+	 */
+	@Override
+	protected void onPause() {
+		super.onPause();
+		currentLocation.removeUpdates();
+	}
+	
+	
+	/**
+	 * onResume
+	 * Request Location Updates when Resume
+	 */
+	@Override
+	protected void onResume() {
+		super.onResume();
+		currentLocation.requestUpdates();
+	}
 }

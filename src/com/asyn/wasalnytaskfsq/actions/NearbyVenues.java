@@ -73,10 +73,14 @@ public class NearbyVenues {
 					Keys.Venues._LONGITUDE));
 
 			/*
-			 * Getting icon url
+			 * Getting Category
+			 * and Icon URL
 			 */
 			JSONArray categories = JsonTools.getJsonArrayFrom(venueObject, Keys.Venues._CATEGORIES);
 			JSONObject category_info = JsonTools.getJsonObjectFrom(categories, Keys.Venues._CATEGORY_INFO);
+			
+			venue.setCategory(JsonTools.getString(category_info, Keys.Venues._ID)); // Set category id
+			
 			JSONObject icon = JsonTools.getJsonObjectFrom(category_info, Keys.Venues._ICON);
 			String prefix = JsonTools.getString(icon, Keys.Venues._PREFIX);
 			String suffix = JsonTools.getString(icon, Keys.Venues._SUFFIX);

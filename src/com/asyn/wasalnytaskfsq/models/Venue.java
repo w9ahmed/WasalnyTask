@@ -1,23 +1,21 @@
 package com.asyn.wasalnytaskfsq.models;
 
-import android.graphics.drawable.Drawable;
-
 import com.google.android.gms.maps.model.LatLng;
 
 public class Venue {
 
 	private String id;
 	private String name;
+	
+	private String category;
 
 	private String address;
 	private double latitude;
 	private double longitude;
 
 	private String photoURL;
-	private Drawable photo;
-
+	
 	public Venue() {
-
 	}
 
 	public String getId() {
@@ -70,12 +68,12 @@ public class Venue {
 		this.photoURL = photoURL;
 	}
 
-	public Drawable getPhoto() {
-		return photo;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setPhoto(Drawable photo) {
-		this.photo = photo;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	/**
@@ -86,7 +84,8 @@ public class Venue {
 	public LatLng getLocation() {
 		return new LatLng(latitude, longitude);
 	}
-
+	
+	
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Name: " + name + "\n");
