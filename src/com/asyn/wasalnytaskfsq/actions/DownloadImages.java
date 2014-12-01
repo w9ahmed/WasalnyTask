@@ -11,7 +11,6 @@ import java.util.List;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
 import com.asyn.wasalnytaskfsq.models.Venue;
@@ -62,7 +61,6 @@ public class DownloadImages {
 	 */
 	private Bitmap getBitmapFromURL(String path) {
 		try {
-			Log.d("Down", "loading");
 			URL url = new URL(path);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setDoInput(true);
@@ -70,7 +68,6 @@ public class DownloadImages {
 			
 			InputStream inputStream = connection.getInputStream();
 			Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-			Log.v("Down", "loading");
 			return bitmap;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

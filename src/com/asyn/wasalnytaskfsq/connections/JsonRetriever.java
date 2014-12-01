@@ -51,14 +51,11 @@ public class JsonRetriever {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet httpGet = new HttpGet(url);
 			
-			HttpResponse response;
-			Log.v(JsonRetriever.class.getSimpleName(), "HTTP RESPONSE SUCCESSFUL");
-			
+			HttpResponse response;			
 			try {
 				response = client.execute(httpGet);
 				StatusLine statusLine = response.getStatusLine();
 				int statusCode = statusLine.getStatusCode();
-				Log.v(JsonRetriever.class.getSimpleName(), "StatusCode: " + statusCode);
 				
 				// Checks if it's a successful HTTP connection, 200
 				if(statusCode == HttpURLConnection.HTTP_OK) {

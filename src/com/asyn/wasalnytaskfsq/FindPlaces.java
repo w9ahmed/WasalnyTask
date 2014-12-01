@@ -43,7 +43,6 @@ public class FindPlaces extends Activity {
 	private GoogleMap map;
 	private ShowLocation currentLocation;
 	
-	private VenuesDataSource dataSource; // TODO
 	private NearbyVenues nearbyVenues;
 	
 	private HashMap<Marker, Venue> venueMarkers;
@@ -66,7 +65,7 @@ public class FindPlaces extends Activity {
 		map.setOnInfoWindowClickListener(infoWindowClickListener);
 		
 		getMyCurrentLocation();
-		traceCachedVenues();
+		traceCachedMarkers();
 		nearbyVenues = new NearbyVenues(FindPlaces.this, buildAPIURL(), getVenuesTaskCompletedListener); // TODO Context Add
 	}
 	
@@ -104,14 +103,13 @@ public class FindPlaces extends Activity {
 	}
 	
 	/**
-	 * 
+	 * Draw cached Markers
 	 */
-	private void traceCachedVenues() {
+	private void traceCachedMarkers() {
 		VenuesDataSource dataSource = new VenuesDataSource(this);
 		dataSource.open();
 		List<Venue> cachedVenues = dataSource.getAllVenues();
-		for (Venue venue : cachedVenues) {
-			System.out.println("Tracing " + venue);
+		for (final Venue venue : cachedVenues) {
 			map.addMarker(new MarkerOptions().position(venue.getLocation()).title(venue.getName()));
 		}
 	}
@@ -120,7 +118,7 @@ public class FindPlaces extends Activity {
 	 * Draw Markers on the Map
 	 * Called in: asyncTaskCompletedListener
 	 */
-	private void traceMarkers() {
+	private void traceNewMarkers() {
 		List<Venue> venues = nearbyVenues.getVenues();
 		venueMarkers = new HashMap<Marker, Venue>();
 		for (Venue venue : venues) {
@@ -139,7 +137,7 @@ public class FindPlaces extends Activity {
 		public void onTaskCompleted() {
 			map.clear();
 			// new VenuesDataSource(FindPlaces.this).destroy(); // TODO
-			traceMarkers();
+			traceNewMarkers();
 			new DownloadImages(nearbyVenues.getVenues(), imageLoadCompletedListener).execute();
 		}
 
@@ -150,6 +148,10 @@ public class FindPlaces extends Activity {
 		@Override
 		public void onTaskComlpeted(HashMap<String, Bitmap> iconSet) {
 			
+		}
+
+		@Override
+		public void onTaskCompleted(Bitmap bitmap) {
 		}
 	};
 	
@@ -216,6 +218,10 @@ public class FindPlaces extends Activity {
 		public void onTaskComlpeted(HashMap<String, Bitmap> iconSet) {
 			
 		}
+
+		@Override
+		public void onTaskCompleted(Bitmap bitmap) {
+		}
 	};
 	
 	
@@ -241,6 +247,10 @@ public class FindPlaces extends Activity {
 				BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(bitmap);
 				marker.setIcon(icon);
 			}
+		}
+
+		@Override
+		public void onTaskCompleted(Bitmap bitmap) {
 		}
 	};	
 	

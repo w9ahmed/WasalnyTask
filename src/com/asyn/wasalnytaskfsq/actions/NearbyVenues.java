@@ -7,7 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.asyn.wasalnytaskfsq.connections.JsonRetriever;
 import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
@@ -96,7 +95,6 @@ public class NearbyVenues {
 			// Adding venue to listOfVenues
 			listOfVenues.add(venue);
 			dataSource.storeVenue(venue); // adding venue to database
-			Log.v("STORE: ", venue.toString());
 		}
 	}
 
