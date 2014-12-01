@@ -33,7 +33,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_VENUES);
 		db.execSQL(DATABASE_CREATE);
 	}
 
@@ -41,6 +40,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_VENUES);
 		onCreate(db);
+	}
+	
+	public void destroy() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_VENUES);
+		onCreate(db); // Recreate the table
 	}
 
 }

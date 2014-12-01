@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.asyn.wasalnytaskfsq.connections.JsonRetriever;
 import com.asyn.wasalnytaskfsq.connections.OnTaskCompletedListener;
@@ -27,6 +28,7 @@ public class NearbyVenues {
 		listOfVenues = new ArrayList<Venue>();
 		dataSource = new VenuesDataSource(context); // TODO Context Add
 		dataSource.open();
+		dataSource.destroy();
 		jsonRetriever = new JsonRetriever(url, onTaskStartedListener,
 				onTaskCompletedListener);
 		jsonRetriever.execute();
@@ -93,6 +95,8 @@ public class NearbyVenues {
 			
 			// Adding venue to listOfVenues
 			listOfVenues.add(venue);
+			dataSource.storeVenue(venue); // adding venue to database
+			Log.v("STORE: ", venue.toString());
 		}
 	}
 

@@ -34,6 +34,10 @@ public class VenuesDataSource {
 	public void close() {
 		database.close();
 	}
+	
+	public void destroy() {
+		dbHelper.destroy(); // TODO
+	}
 
 	public void storeVenue(Venue venue) {
 		ContentValues values = new ContentValues();
@@ -49,9 +53,10 @@ public class VenuesDataSource {
 		database.insert(SQLiteHelper.TABLE_VENUES, null, values);
 	}
 
-	public List<Venue> getAllVenues() {
+	public List<Venue> getAllVenues() {		
 		Cursor cursor = database.query(SQLiteHelper.TABLE_VENUES, allColumns,
 				null, null, null, null, null);
+		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			Venue venue = cursorToVenue(cursor);

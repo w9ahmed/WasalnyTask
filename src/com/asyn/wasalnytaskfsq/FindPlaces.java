@@ -8,7 +8,6 @@ import java.util.Map;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,7 +66,7 @@ public class FindPlaces extends Activity {
 		map.setOnInfoWindowClickListener(infoWindowClickListener);
 		
 		getMyCurrentLocation();
-//		getVenuesFromDB(); // TODO
+		traceCachedVenues();
 		nearbyVenues = new NearbyVenues(FindPlaces.this, buildAPIURL(), getVenuesTaskCompletedListener); // TODO Context Add
 	}
 	
@@ -104,14 +103,16 @@ public class FindPlaces extends Activity {
 		return url;
 	}
 	
-	private void getVenuesFromDB() {
-		dataSource = new VenuesDataSource(FindPlaces.this);
-		List<Venue> venues = new VenuesDataSource(FindPlaces.this).getAllVenues(); // TODO
-		Log.v("DB", "SIZE: " + venues.size());
-		if(venues.size() > 0) {
-			for (Venue venue : venues) {
-				map.addMarker(new MarkerOptions().position(venue.getLocation()).title(venue.getName()));
-			}
+	/**
+	 * 
+	 */
+	private void traceCachedVenues() {
+		VenuesDataSource dataSource = new VenuesDataSource(this);
+		dataSource.open();
+		List<Venue> cachedVenues = dataSource.getAllVenues();
+		for (Venue venue : cachedVenues) {
+			System.out.println("Tracing " + venue);
+			map.addMarker(new MarkerOptions().position(venue.getLocation()).title(venue.getName()));
 		}
 	}
 	
@@ -136,7 +137,8 @@ public class FindPlaces extends Activity {
 	private OnTaskCompletedListener getVenuesTaskCompletedListener = new OnTaskCompletedListener() {
 		@Override
 		public void onTaskCompleted() {
-			//TODO map.clear();
+			map.clear();
+			// new VenuesDataSource(FindPlaces.this).destroy(); // TODO
 			traceMarkers();
 			new DownloadImages(nearbyVenues.getVenues(), imageLoadCompletedListener).execute();
 		}
