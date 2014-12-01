@@ -6,9 +6,8 @@ WasalnyTask
 Screenshots
 ===========
 
-** * If No Network Available * **
+** * If No Network Available * ** <br><hr>
 ![Alt text](http://i253.photobucket.com/albums/hh61/w9ahmed/device-2014-12-01-103713_zps710d4e19.png)
-<img src="http://i253.photobucket.com/albums/hh61/w9ahmed/device-2014-12-01-103713_zps710d4e19.png" alt="No Connection">
 
 ** * Login Screen * **
 ![Alt text](http://i253.photobucket.com/albums/hh61/w9ahmed/device-2014-12-01-103847_zps7eb28474.png)
